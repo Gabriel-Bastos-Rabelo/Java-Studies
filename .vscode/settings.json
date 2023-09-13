@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "Lab2/TicTacToe",
+        "Lab1/src",
+        "Lab2/Agenda/src"
+    ]
+}
