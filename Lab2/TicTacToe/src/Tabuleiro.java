@@ -4,13 +4,15 @@ import java.util.Scanner;
 
 public class Tabuleiro {
     private String tabuleiro[][];
+    private int numeroJogadas;
     Menu menu = new Menu();
 
     public Tabuleiro() {
         tabuleiro = new String[3][3];
+        numeroJogadas = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                tabuleiro[i][j] = "EMPTY";
+                tabuleiro[i][j] = "E";
             }
         }
     }
@@ -34,14 +36,21 @@ public class Tabuleiro {
 
         while (true) {
 
-            System.out.println("Escolha um X e um Y");
+            System.out.println("Escolha uma linha e um coluna: ");
             String entrada = scanner.nextLine();
             String[] elementos = entrada.split(" ");
+
+            if (numeroJogadas == 9) {
+                System.out.println("O jogo terminou empatado");
+                break;
+            }
 
             if (jogada(simbolo, Integer.parseInt(elementos[0]), Integer.parseInt(elementos[1]))) {
                 System.out.println("O jogo acabou");
                 break;
             }
+
+            numeroJogadas += 1;
 
             if (simbolo.equals("X")) {
                 simbolo = "O";
@@ -54,7 +63,7 @@ public class Tabuleiro {
     }
 
     public boolean jogada(String simbolo, int posX, int posY) {
-        if (!this.tabuleiro[posX][posY].equals("EMPTY")) {
+        if (!this.tabuleiro[posX][posY].equals("E")) {
             System.out.println("Essa posição já está ocupada");
 
         } else if (!simbolo.equals("O") && !simbolo.equals("X")) {
@@ -76,32 +85,32 @@ public class Tabuleiro {
 
     public boolean verificarVencedor() {
 
-        if ((!tabuleiro[0][0].equals("EMPTY") && tabuleiro[0][0].equals(tabuleiro[0][1])
+        if ((!tabuleiro[0][0].equals("E") && tabuleiro[0][0].equals(tabuleiro[0][1])
                 && tabuleiro[0][1].equals(tabuleiro[0][2])) ||
-                (!tabuleiro[1][0].equals("EMPTY") && tabuleiro[1][0].equals(tabuleiro[1][1])
+                (!tabuleiro[1][0].equals("E") && tabuleiro[1][0].equals(tabuleiro[1][1])
                         && tabuleiro[1][1].equals(tabuleiro[1][2]))
                 ||
-                (!tabuleiro[2][0].equals("EMPTY") && tabuleiro[2][0].equals(tabuleiro[2][1])
+                (!tabuleiro[2][0].equals("E") && tabuleiro[2][0].equals(tabuleiro[2][1])
                         && tabuleiro[2][1].equals(tabuleiro[2][2]))) {
 
             return true;
 
         }
 
-        else if ((!tabuleiro[0][0].equals("EMPTY") && tabuleiro[0][0].equals(tabuleiro[1][0])
+        else if ((!tabuleiro[0][0].equals("E") && tabuleiro[0][0].equals(tabuleiro[1][0])
                 && tabuleiro[1][0].equals(tabuleiro[2][0])) ||
-                (!tabuleiro[0][1].equals("EMPTY") && tabuleiro[0][1].equals(tabuleiro[1][1])
+                (!tabuleiro[0][1].equals("E") && tabuleiro[0][1].equals(tabuleiro[1][1])
                         && tabuleiro[1][1].equals(tabuleiro[2][1]))
                 ||
-                (!tabuleiro[0][2].equals("EMPTY") && tabuleiro[0][2].equals(tabuleiro[1][2])
+                (!tabuleiro[0][2].equals("E") && tabuleiro[0][2].equals(tabuleiro[1][2])
                         && tabuleiro[1][2].equals(tabuleiro[2][2]))) {
 
             return true;
         }
 
-        else if ((!tabuleiro[0][0].equals("EMPTY") && tabuleiro[1][1].equals(tabuleiro[0][0])
+        else if ((!tabuleiro[0][0].equals("E") && tabuleiro[1][1].equals(tabuleiro[0][0])
                 && tabuleiro[1][1].equals(tabuleiro[2][2])) ||
-                (!tabuleiro[0][2].equals("EMPTY") && tabuleiro[0][2].equals(tabuleiro[1][1])
+                (!tabuleiro[0][2].equals("E") && tabuleiro[0][2].equals(tabuleiro[1][1])
                         && tabuleiro[1][1].equals(tabuleiro[2][0]))) {
 
             return true;

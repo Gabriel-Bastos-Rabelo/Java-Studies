@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Menu {
+public class MenuContato {
 
     private Scanner scanner = new Scanner(System.in);
     Contatos contatos = new Contatos();

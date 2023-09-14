@@ -4,5 +4,6 @@
         "Lab2/Agenda/src",
         "Lab1/src",
         "Lab2/FrequenciaCardiaca/src"
-    ]
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
 }
