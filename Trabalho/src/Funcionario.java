@@ -1,10 +1,13 @@
+import java.util.ArrayList;
+
+
 public class Funcionario {
     protected String cpf;
     protected String nome;
     protected float salario;
     protected Departamento departamento;
     ArrayList<Beneficios> listaDeBeneficios = new ArrayList<Beneficios>();
-    ArrayList<Descontos> listaDeDescontos = new ArrayList<Descontos>();
+    ArrayList<Desconto> listaDeDescontos = new ArrayList<Desconto>();
 
     public Funcionario(String cpf, String nome, float salario, Departamento departamento){
         this.cpf = cpf;
@@ -15,27 +18,29 @@ public class Funcionario {
     }
 
 
-    public setListaDeDescontos(String nome, float valorPerc, float valorNum){
+    public void setListaDeDescontos(String nome, float valorPerc, float valorNum){
 
         if(valorPerc == -1){
             Desconto descontoNovo = new Desconto(nome, -1, valorNum);
+            listaDeDescontos.add(descontoNovo);
         }
         else{
-            Desconto descontoNovo = new Desconto(nome, valoPerc, -1);
+            Desconto descontoNovo = new Desconto(nome, valorPerc, -1);
+            listaDeDescontos.add(descontoNovo);
         }
 
-        listaDeDescontos.add(descontoNovo);
+        
         
     }
 
 
-    public setListaDeBeneficios(String nome, float value){
-        Beneficios beneficioNovo = new Beneficio(nome, value);
+    public void setListaDeBeneficios(String nome, float value){
+        Beneficios beneficioNovo = new Beneficios(nome, value);
         listaDeBeneficios.add(beneficioNovo);
     }
 
 
-    public calcularSalario(){
+    public float calcularSalario(){
         return salario;
     }
     

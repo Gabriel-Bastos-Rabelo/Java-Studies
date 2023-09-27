@@ -1,4 +1,4 @@
-public class Entregador {
+public class Entregador extends Funcionario{
     private float periculosidade;
 
     public Entregador(String cpf, String nome, float salario, Departamento departamento, float periculosidade){
@@ -8,6 +8,6 @@ public class Entregador {
 
 
     public float calcularSalario(){
-        return salario + periculosidade;
+        return super.salario + periculosidade;
     }
 }

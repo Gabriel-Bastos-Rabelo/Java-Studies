@@ -1,4 +1,4 @@
-public class Administrador {
+public class Administrador extends Funcionario{
     private float bonusChefia;
 
 
@@ -9,6 +9,6 @@ public class Administrador {
 
 
     public float calcularSalario(){
-        return salario + bonusChefia;
+        return super.salario + bonusChefia;
     }
 }
