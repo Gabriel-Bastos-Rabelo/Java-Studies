@@ -1,9 +1,10 @@
 {
     "java.project.sourcePaths": [
         "Lab2/TicTacToe",
+        "Lab2/FrequenciaCardiaca/src",
         "Lab2/Agenda/src",
         "Lab1/src",
-        "Lab2/FrequenciaCardiaca/src"
+        "Trabalho/src/View"
     ],
     "java.debug.settings.onBuildFailureProceed": true
 }

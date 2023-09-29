@@ -1,3 +1,5 @@
+package Model;
+
 public class Desconto {
     private String nome;
     private float valorPerc;
@@ -21,11 +23,12 @@ public class Desconto {
         return this.nome;
     }
 
-    public float getValorPerc(){
-        return this.valorPerc;
-    }
+    public float getValor(){
+        if(valorNum == 0){
+            return this.valorPerc;
+        }
 
-    public float getValorNum(){
         return this.valorNum;
     }
+
 }

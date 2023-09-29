@@ -1,3 +1,4 @@
+package Model;
 public class Beneficios {
     private String nome;
     private float value;
