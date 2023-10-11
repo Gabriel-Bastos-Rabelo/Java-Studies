@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Funcionalidades {
     ArrayList<Exemplar> listaExemplares;
@@ -61,6 +63,9 @@ public class Funcionalidades {
             listaMovimentacao.add(newDevolucao);
             exemplaresEmprestados.remove(exemplar);
             usuariosComEmprestimos.remove(usuario);
+            if(obraLida){
+                usuario.setLivrosLidos();
+            }
             return true;
         }
 
@@ -69,6 +74,33 @@ public class Funcionalidades {
 
 
         //TODO fazer a verificação se o livro que o usuario quer devolver realmente foi o que ele pegou
+    }
+
+
+    public Usuario buscarUsuario(String nome, String cpf){
+        for(Usuario usuario : listaUsuarios){
+            if(usuario.getNome().equals(nome) && usuario.getCpf().equals(cpf)){
+                return usuario;
+            }
+        }
+
+        return null;
+    }
+
+
+    public Exemplar buscarExemplar(String titulo, String autor){
+        for(Exemplar exemplar : listaExemplares){
+            if(exemplar.getTitulo().equals(titulo) && exemplar.getAutor().equals(autor)){
+                return exemplar;
+            }
+        }
+
+
+        return null;
+    }
+
+    public ArrayList<Exemplar> getListaExemplares(){
+        return this.listaExemplares;
     }
 
     public void setNome(Usuario usuario, String nome) {
@@ -85,5 +117,40 @@ public class Funcionalidades {
 
     public void setDataNascimento(Usuario usuario, String dataNascimento) {
         usuario.setDataNascimento(dataNascimento);
+    }
+
+
+    public ArrayList<Usuario> rankingLeitura(){
+        //tenho que pegar a lista de usuarios, procurar por todas as crianças, botar em uma lista de ranking, e ordenar por livros lidos
+        ArrayList<Usuario> rankingUsuarios = new ArrayList<Usuario>();
+        for(Usuario usuario : listaUsuarios){
+            if(usuario.getAdulto() == false){
+                rankingUsuarios.add(usuario);
+            }
+        }
+
+        Collections.sort(rankingUsuarios, new Comparator<Usuario>() {
+            @Override
+            public int compare(Usuario s1, Usuario s2) {
+                return Integer.compare(s2.getLivrosLidos(), s1.getLivrosLidos());
+            }
+        });
+
+        return rankingUsuarios;
+
+
+
+    }
+
+    public ArrayList<Exemplar> consultaAcervo(String palavraChave){
+        ArrayList<Exemplar> listaBuscadaExemplares = new ArrayList<>();
+        for(Exemplar exemplar : listaExemplares){
+            if(exemplar.getTitulo().indexOf(palavraChave) >= 0){
+                listaBuscadaExemplares.add(exemplar);
+            }
+        }
+
+
+        return listaBuscadaExemplares;
     }
 }

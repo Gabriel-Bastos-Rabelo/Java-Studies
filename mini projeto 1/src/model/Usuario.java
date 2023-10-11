@@ -5,12 +5,14 @@ public class Usuario {
     protected String cpf;
     protected String dataNascimento;
     protected boolean adulto;
+    protected int livrosLidos;
     
     public Usuario(String nome, String cpf, String dataNascimento, boolean adulto){
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.adulto = adulto;
+        this.livrosLidos = 0;
     }
 
 
@@ -26,7 +28,27 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
+    public boolean getAdulto(){
+        return this.adulto;
+    }
     public void setAdulto(boolean adulto){
         this.adulto = adulto;
+    }
+
+
+    public String getNome(){
+        return this.nome;
+    }
+
+    public String getCpf(){
+        return this.cpf;
+    }
+
+    public int getLivrosLidos(){
+        return this.livrosLidos;
+    }
+
+    public void setLivrosLidos(){
+        this.livrosLidos += 1;
     }
 }

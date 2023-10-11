@@ -27,4 +27,14 @@ public abstract class Exemplar{
     public void setDisponivel(boolean disponivel){
         this.disponivel = disponivel;
     }
+
+
+    public String getTitulo(){
+        return this.titulo;
+    }
+
+
+    public String getAutor(){
+        return this.autor;
+    }
 }
