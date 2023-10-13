@@ -3,15 +3,20 @@ package model;
 public class Usuario {
     protected String nome;
     protected String cpf;
-    protected String dataNascimento;
+    protected int idade;
     protected boolean adulto;
     protected int livrosLidos;
     
-    public Usuario(String nome, String cpf, String dataNascimento, boolean adulto){
+    public Usuario(String nome, String cpf, int idade){
         this.nome = nome;
         this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
-        this.adulto = adulto;
+        this.idade = idade;
+        if(idade < 18){
+            adulto = false;
+        }
+        else{
+            adulto = true;
+        }
         this.livrosLidos = 0;
     }
 
@@ -24,8 +29,8 @@ public class Usuario {
         this.cpf = cpf;
     }
 
-    public void setDataNascimento(String dataNascimento){
-        this.dataNascimento = dataNascimento;
+    public void setIdade(int idade){
+        this.idade = idade;
     }
 
     public boolean getAdulto(){

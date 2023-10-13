@@ -35,8 +35,8 @@ public class Funcionalidades {
         listaExemplares.add(newRevista);
     }
 
-    public void cadastroUsuario(String nome, String cpf, String dataNascimento, boolean adulto) {
-        Usuario newUsuario = new Usuario(nome, cpf, dataNascimento, adulto);
+    public void cadastroUsuario(String nome, String cpf, int idade) {
+        Usuario newUsuario = new Usuario(nome, cpf, idade);
         listaUsuarios.add(newUsuario);
 
     }
@@ -126,8 +126,8 @@ public class Funcionalidades {
         usuario.setAdulto(adulto);
     }
 
-    public void setDataNascimento(Usuario usuario, String dataNascimento) {
-        usuario.setDataNascimento(dataNascimento);
+    public void setDataNascimento(Usuario usuario, int idade) {
+        usuario.setIdade(idade);
     }
 
 
@@ -178,5 +178,17 @@ public class Funcionalidades {
 
     public ArrayList<Movimentacao> gerarRelatorio(){
         return this.listaMovimentacao;
+    }
+
+
+    public Emprestimo situacaoEmprestimo(Usuario usuario){
+        for(Emprestimo emprestimo : listaUsuariosEmprestimos){
+            if(emprestimo.getUsuario() == usuario){
+                return emprestimo;
+            }
+        }
+
+
+        return null;
     }
 }

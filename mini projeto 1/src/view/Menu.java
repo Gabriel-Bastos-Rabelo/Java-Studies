@@ -52,27 +52,16 @@ public class Menu {
                 case 2:
                     System.out.println("Digite o nome do usuario");
                     String nome = entrada.nextLine();
-                    System.out.println("Digite a data de nascimento");
-                    String dataNascimento = entrada.nextLine();
+                    System.out.println("Digite a idade");
+                    int idade = entrada.nextInt();
+                    entrada.nextLine();
                     System.out.println("Digite o CPF");
                     String cpf = entrada.nextLine();
-                    System.out.println("É adulto (1 para sim ou 2 para não)");
-                    int maiorIdade = entrada.nextInt();
-                    boolean adulto;
-                    if(maiorIdade == 1){
-                        adulto = true;
-                    }
-                    else if(maiorIdade == 2){
-                        adulto = false;
-                    }
-                    else{
-                        System.out.println("Digite uma opção válida");
-                        continue;
-                    }
-                    entrada.nextLine();
-                    funcionalidades.cadastroUsuario(nome, cpf, dataNascimento, adulto);
+                    
+                    funcionalidades.cadastroUsuario(nome, cpf, idade);
                     break;
                 case 3:
+                    
                     
                     System.out.println("Digite a palavra chave");
                     String palavraChave = entrada.nextLine();
@@ -114,6 +103,21 @@ public class Menu {
 
                     break;
                 case 5:
+                    Usuario usuarioSituacao = MenuBuscarUsuario();
+                    if(usuarioSituacao == null){
+                        System.out.println("O usuário não foi encontrado no sistema");
+                        continue;
+                    }
+
+                    Emprestimo emprestimoUsuario = funcionalidades.situacaoEmprestimo(usuarioSituacao);
+                    if(emprestimoUsuario == null){
+                        System.out.println("O usuário " + usuarioSituacao.getNome() + " não tem nenhum empréstimo em aberto");
+                    }
+
+                    else{
+                        System.out.println("Usuário: " + usuarioSituacao.getNome() + "| Livro: " + emprestimoUsuario.getExemplar().getTitulo() + " | Data empréstimo: " + emprestimoUsuario.getDataMovimentacao() + " | Data para devolução: " + emprestimoUsuario.getDataDevolucao());
+                    }
+
                     break;
                 case 6:
                     Usuario usuarioDevolucao = MenuBuscarUsuario();
@@ -158,7 +162,7 @@ public class Menu {
                     ArrayList<Movimentacao> relatorio = funcionalidades.gerarRelatorio();
                     for(Movimentacao movimentacao : relatorio){
                         if(movimentacao instanceof Emprestimo){
-                            System.out.println("Emprestimo| " + "Livro: " + movimentacao.getExemplar().getTitulo() + "| Usuário: " + movimentacao.getUsuario().getNome() + "| Data: " + movimentacao.getDataMovimentacao() + "   " + ((Emprestimo)movimentacao).getDataDevolucao());
+                            System.out.println("Emprestimo| " + "Livro: " + movimentacao.getExemplar().getTitulo() + "| Usuário: " + movimentacao.getUsuario().getNome() + "| Data: " + movimentacao.getDataMovimentacao() + " | Data para devolução " + ((Emprestimo)movimentacao).getDataDevolucao());
                         }
                         else{
                             System.out.println("Devolução| " + "Livro: " + movimentacao.getExemplar().getTitulo() + "| Usuário: " + movimentacao.getUsuario().getNome() + "| Data: " + movimentacao.getDataMovimentacao());
