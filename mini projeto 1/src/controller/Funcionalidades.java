@@ -4,6 +4,7 @@ import model.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 public class Funcionalidades {
     ArrayList<Exemplar> listaExemplares;
@@ -11,8 +12,7 @@ public class Funcionalidades {
     ArrayList<Movimentacao> listaMovimentacao;
     ArrayList<Emprestimo> listaEmprestimos;
     ArrayList<Devolucao> listaDevolucao;
-    ArrayList<Exemplar> exemplaresEmprestados;
-    ArrayList<Usuario> usuariosComEmprestimos;
+    ArrayList<Emprestimo> listaUsuariosEmprestimos;
 
     public Funcionalidades() {
         listaExemplares = new ArrayList<Exemplar>();
@@ -20,14 +20,12 @@ public class Funcionalidades {
         listaMovimentacao = new ArrayList<Movimentacao>();
         listaEmprestimos = new ArrayList<Emprestimo>();
         listaDevolucao = new ArrayList<Devolucao>();
-        exemplaresEmprestados = new ArrayList<Exemplar>();
-        usuariosComEmprestimos = new ArrayList<Usuario>();
+        listaUsuariosEmprestimos = new ArrayList<Emprestimo>();
 
     }
 
-    public void cadastroLivro(String titulo, String autor, int ano, String editora, int qtdPaginas, String genero,
-            int exemplar) {
-        Livro newLivro = new Livro(titulo, autor, ano, editora, qtdPaginas, genero, exemplar);
+    public void cadastroLivro(String titulo, String autor, int ano, String editora, int qtdPaginas, String genero) {
+        Livro newLivro = new Livro(titulo, autor, ano, editora, qtdPaginas, genero);
         listaExemplares.add(newLivro);
     }
 
@@ -43,37 +41,50 @@ public class Funcionalidades {
 
     }
 
-    public boolean cadastroEmprestimo(Usuario usuario, Exemplar exemplar, String dataEmprestimo) {
+    public boolean cadastroEmprestimo(Usuario usuario, Exemplar exemplar) {
 
-        if (!exemplaresEmprestados.contains(exemplar) && !usuariosComEmprestimos.contains(usuario)) {
-            Emprestimo newEmprestimo = new Emprestimo(usuario, dataEmprestimo, exemplar);
-            listaMovimentacao.add(newEmprestimo);
-            exemplaresEmprestados.add(exemplar);
-            usuariosComEmprestimos.add(usuario);
-            return true;
+        for(Emprestimo emprestimo : listaUsuariosEmprestimos){
+            if(emprestimo.getUsuario() == usuario){
+                return false;
+            }
         }
 
-        return false;
+        
+
+        exemplar.setDisponivel(false);
+
+        Date dataEmprestimo = new Date();
+
+        Emprestimo newEmprestimo = new Emprestimo(usuario, dataEmprestimo, exemplar);
+        listaMovimentacao.add(newEmprestimo);
+        listaUsuariosEmprestimos.add(newEmprestimo);
+        return true;
+        
 
     }
 
-    public boolean cadastroDevolucao(Usuario usuario, Exemplar exemplar, String dataDevolucao, boolean obraLida) {
-        if(usuariosComEmprestimos.contains(usuario) && exemplaresEmprestados.contains(exemplar)){
-            Devolucao newDevolucao = new Devolucao(usuario, dataDevolucao, exemplar, obraLida);
-            listaMovimentacao.add(newDevolucao);
-            exemplaresEmprestados.remove(exemplar);
-            usuariosComEmprestimos.remove(usuario);
-            if(obraLida){
-                usuario.setLivrosLidos();
+    public boolean cadastroDevolucao(Usuario usuario, Exemplar exemplar, boolean obraLida) {
+
+        //TODO tenho que ter um metodo para recuperar um exemplar que esteja indisponivel, e aí sim, passar para esse método
+        // talvez possa iterar sobre a lista de usuario com emprestimo, e verificar retornar o exemplar que bata com o mesmo titulo passado para o mesmo usuario
+        for(Emprestimo emprestimo : listaUsuariosEmprestimos){
+            if(emprestimo.getUsuario() == usuario && emprestimo.getExemplar() == exemplar){
+                exemplar.setDisponivel(true);
+                if(obraLida == true){
+                    usuario.setLivrosLidos();
+                }
+
+                Date dataDevolucao = new Date();
+                Devolucao newDevolucao = new Devolucao(usuario, dataDevolucao, exemplar, obraLida);
+                listaMovimentacao.add(newDevolucao);
+                listaUsuariosEmprestimos.remove(emprestimo);
+                return true;
+
             }
-            return true;
         }
 
 
         return false;
-
-
-        //TODO fazer a verificação se o livro que o usuario quer devolver realmente foi o que ele pegou
     }
 
 
@@ -90,7 +101,7 @@ public class Funcionalidades {
 
     public Exemplar buscarExemplar(String titulo, String autor){
         for(Exemplar exemplar : listaExemplares){
-            if(exemplar.getTitulo().equals(titulo) && exemplar.getAutor().equals(autor)){
+            if(exemplar.getTitulo().equals(titulo) && exemplar.getAutor().equals(autor) && exemplar.getDisponivel() == true){
                 return exemplar;
             }
         }
@@ -152,5 +163,20 @@ public class Funcionalidades {
 
 
         return listaBuscadaExemplares;
+    }
+
+    public Exemplar buscarExemplarDevolucao(String titulo, String autor, Usuario usuario){
+        for(Emprestimo emprestimo : listaUsuariosEmprestimos){
+            if(emprestimo.getExemplar().getAutor().equals(autor) && emprestimo.getExemplar().getTitulo().equals(titulo) && emprestimo.getUsuario() == usuario){
+                return emprestimo.getExemplar();
+            }
+        }
+
+        return null;
+    }
+
+
+    public ArrayList<Movimentacao> gerarRelatorio(){
+        return this.listaMovimentacao;
     }
 }

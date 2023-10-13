@@ -8,7 +8,7 @@ public abstract class Exemplar{
     protected String editora;
     protected int qtdPaginas;
     protected String genero;
-    protected boolean disponivel;
+    protected boolean statusDisponivel;
     public Exemplar(String titulo, String autor, int ano, String editora, int qtdPaginas, String genero){
         this.titulo = titulo;
         this.autor = autor;
@@ -16,16 +16,16 @@ public abstract class Exemplar{
         this.editora = editora;
         this.qtdPaginas = qtdPaginas;
         this.genero = genero;
-        this.disponivel = true;
+        this.statusDisponivel = true;
     }
 
 
     public boolean getDisponivel(){
-        return this.disponivel;
+        return this.statusDisponivel;
     }
 
     public void setDisponivel(boolean disponivel){
-        this.disponivel = disponivel;
+        this.statusDisponivel = disponivel;
     }
 
 

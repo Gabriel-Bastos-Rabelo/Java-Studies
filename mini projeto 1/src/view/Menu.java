@@ -93,17 +93,16 @@ public class Menu {
                         continue;
                     }
 
-                    Exemplar exemplar = MenuBuscaExemplar();
+                    Exemplar exemplar = MenuBuscaExemplarCadastro();
                     
                     if(exemplar == null){
-                        System.out.println("O exemplar não foi encontrado no sistema");
+                        System.out.println("O exemplar não foi encontrado no sistema ou não está disponível");
                         continue;
                     }
 
-                    System.out.println("Digite a data do emprestimo");
-                    String dataEmprestimo = entrada.nextLine();
+                    
 
-                    boolean cadastroEmprestimo = funcionalidades.cadastroEmprestimo(usuario, exemplar, dataEmprestimo);
+                    boolean cadastroEmprestimo = funcionalidades.cadastroEmprestimo(usuario, exemplar);
                     if(cadastroEmprestimo){
                         System.out.println("O emprestimo foi efetuado com sucesso");
                     }
@@ -123,15 +122,14 @@ public class Menu {
                         continue;
                     }
 
-                    Exemplar exemplarDevolucao = MenuBuscaExemplar();
+                    Exemplar exemplarDevolucao = MenuBuscarExemplarDevolucao(usuarioDevolucao);
                     
                     if(exemplarDevolucao == null){
                         System.out.println("O exemplar não foi encontrado no sistema");
                         continue;
                     }
 
-                    System.out.println("Digite a data do emprestimo");
-                    String dataDevolucao = entrada.nextLine();
+                    
                     System.out.println("A obra foi lida? (1 para sim ou 2 para não)");
                     int op = entrada.nextInt();
                     entrada.nextLine();
@@ -148,7 +146,7 @@ public class Menu {
                     }
 
 
-                    boolean cadastroDevolucao = funcionalidades.cadastroDevolucao(usuarioDevolucao, exemplarDevolucao, dataDevolucao, obraLida );
+                    boolean cadastroDevolucao = funcionalidades.cadastroDevolucao(usuarioDevolucao, exemplarDevolucao, obraLida );
                     if(cadastroDevolucao){
                         System.out.println("Devolução efetuada com sucesso");
                     }
@@ -157,6 +155,15 @@ public class Menu {
                     }
                     break;
                 case 7:
+                    ArrayList<Movimentacao> relatorio = funcionalidades.gerarRelatorio();
+                    for(Movimentacao movimentacao : relatorio){
+                        if(movimentacao instanceof Emprestimo){
+                            System.out.println("Emprestimo| " + "Livro: " + movimentacao.getExemplar().getTitulo() + "| Usuário: " + movimentacao.getUsuario().getNome() + "| Data: " + movimentacao.getDataMovimentacao() + "   " + ((Emprestimo)movimentacao).getDataDevolucao());
+                        }
+                        else{
+                            System.out.println("Devolução| " + "Livro: " + movimentacao.getExemplar().getTitulo() + "| Usuário: " + movimentacao.getUsuario().getNome() + "| Data: " + movimentacao.getDataMovimentacao());
+                        }
+                    }
                     break;
                 case 8:
                     ArrayList<Usuario> rankingUsuarios = funcionalidades.rankingLeitura();
@@ -205,10 +212,8 @@ public class Menu {
             if(opcao == 1){
                 
                 
-                System.out.println("Digite o exemplar");
-                int exemplar = entrada.nextInt();
-                entrada.nextLine();
-                funcionalidades.cadastroLivro(titulo, autor, ano, editora, qtdPaginas, genero, exemplar);
+                
+                funcionalidades.cadastroLivro(titulo, autor, ano, editora, qtdPaginas, genero);
 
             }
             else if(opcao == 2){
@@ -248,12 +253,27 @@ public class Menu {
     }
 
 
-    public Exemplar MenuBuscaExemplar(){
+    public Exemplar MenuBuscaExemplarCadastro(){
         System.out.println("Digite o titulo da obra");
         String titulo = entrada.nextLine();
         System.out.println("Digite o nome do autor");
         String autor = entrada.nextLine();
         Exemplar exemplar = funcionalidades.buscarExemplar(titulo, autor);
+        if(exemplar == null){
+            return null;
+        }
+        else{
+            return exemplar;
+        }
+    }
+
+
+    public Exemplar MenuBuscarExemplarDevolucao(Usuario usuario){
+        System.out.println("Digite o titulo da obra");
+        String titulo = entrada.nextLine();
+        System.out.println("Digite o nome do autor");
+        String autor = entrada.nextLine();
+        Exemplar exemplar = funcionalidades.buscarExemplarDevolucao(titulo, autor, usuario);
         if(exemplar == null){
             return null;
         }
