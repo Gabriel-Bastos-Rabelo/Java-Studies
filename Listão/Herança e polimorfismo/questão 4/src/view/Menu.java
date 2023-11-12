@@ -14,6 +14,7 @@ public class Menu {
     public Menu(){
         this.scanner = new Scanner(System.in);
         this.funcionalidades = new Control();
+        funcionalidades.inicializarAplicacao();
 
     }
 
